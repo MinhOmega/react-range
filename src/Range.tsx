@@ -321,14 +321,19 @@ class Range extends React.Component<IProps> {
     } else {
       this.addMouseEvents(e);
     }
-    this.setState({
-      draggedThumbIndex: index,
-      thumbZIndexes: this.state.thumbZIndexes.map((t, i) => {
+    const _thumbZIndexes = [...this.state.thumbZIndexes].map((t, i) => {
         if (i === index) {
           return Math.max(...this.state.thumbZIndexes);
         }
         return t <= this.state.thumbZIndexes[index] ? t : t - 1;
       })
+    })
+    this.setState({
+      draggedThumbIndex: index
+    }, () => {
+  this.setState({
+    thumbZIndexes: _thumbZIndexes
+  })
     });
   };
 
