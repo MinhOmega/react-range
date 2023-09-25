@@ -322,19 +322,21 @@ class Range extends React.Component<IProps> {
       this.addMouseEvents(e);
     }
     const _thumbZIndexes = [...this.state.thumbZIndexes].map((t, i) => {
-        if (i === index) {
-          return Math.max(...this.state.thumbZIndexes);
-        }
-        return t <= this.state.thumbZIndexes[index] ? t : t - 1;
-      })
-    })
-    this.setState({
-      draggedThumbIndex: index
-    }, () => {
-  this.setState({
-    thumbZIndexes: _thumbZIndexes
-  })
+      if (i === index) {
+        return Math.max(...this.state.thumbZIndexes);
+      }
+      return t <= this.state.thumbZIndexes[index] ? t : t - 1;
     });
+    this.setState(
+      {
+        draggedThumbIndex: index
+      },
+      () => {
+        this.setState({
+          thumbZIndexes: _thumbZIndexes
+        });
+      }
+    );
   };
 
   onMouseMove = (e: MouseEvent) => {
@@ -556,7 +558,8 @@ class Range extends React.Component<IProps> {
   };
 
   updateMarkRefs = (props: IProps) => {
-    if (!props.renderMark) { // don't create mark refs unless we are rendering marks
+    if (!props.renderMark) {
+      // don't create mark refs unless we are rendering marks
       this.numOfMarks = undefined;
       this.markRefs = undefined;
       return;
@@ -566,7 +569,7 @@ class Range extends React.Component<IProps> {
     for (let i = 0; i < this.numOfMarks + 1; i++) {
       this.markRefs[i] = React.createRef<HTMLElement>();
     }
-  }
+  };
 
   calculateMarkOffsets = () => {
     if (
